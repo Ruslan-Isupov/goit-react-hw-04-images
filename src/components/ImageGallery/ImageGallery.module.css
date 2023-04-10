@@ -1,0 +1,14 @@
+.gallery {
+  margin-top: 50px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.blocksWrapper {
+  display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+}

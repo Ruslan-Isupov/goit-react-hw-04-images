@@ -12,8 +12,9 @@ export const App = () => {
   const [loader, setLoader] = useState(false);
   const [totalHits, setTotalHits] = useState(0);
   const [error, setError] = useState('');
-
+  
   const incrementPage = nameQuery => {
+    
     setLoader(true);
     return getFetchSearch(nameQuery, numberPage)
       .then(listOfImages => {
@@ -26,13 +27,17 @@ export const App = () => {
       .finally(() => setLoader(false));
   };
   useEffect(() => {
+    
     if (nameQuery) {
       incrementPage(nameQuery);
     }
   }, [nameQuery]);
 
   const saveNameQuery = nameQuery => {
+    
     return setNameQuery(prevState => {
+    
+
       if (prevState === nameQuery || prevState === undefined) {
         setNameQuery(nameQuery);
         return Notiflix.Notify.failure('Same  name of query.Try again!');

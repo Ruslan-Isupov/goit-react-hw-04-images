@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useCallback } from 'react';
 import { getFetchSearch } from 'API/api';
 import { SearchBar } from './SearchBar/SearchBar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -13,7 +13,20 @@ export const App = () => {
   const [totalHits, setTotalHits] = useState(0);
   const [error, setError] = useState('');
   
-  const incrementPage = nameQuery => {
+  // const incrementPage = () => {
+    
+  //   setLoader(true);
+  //   return getFetchSearch(nameQuery, numberPage)
+  //     .then(listOfImages => {
+  //       setTotalHits(listOfImages.totalHits);
+  //       setImages(prevState => [...prevState, ...listOfImages.hits]);
+  //       setNumberPage(prevState => prevState + 1);
+  //     })
+
+  //     .catch(error => setError(error))
+  //     .finally(() => setLoader(false));
+  // };
+   const incrementPage = useCallback( () => {
     
     setLoader(true);
     return getFetchSearch(nameQuery, numberPage)
@@ -25,7 +38,8 @@ export const App = () => {
 
       .catch(error => setError(error))
       .finally(() => setLoader(false));
-  };
+  },[nameQuery,numberPage]);
+ 
   useEffect(() => {
     
     if (nameQuery) {

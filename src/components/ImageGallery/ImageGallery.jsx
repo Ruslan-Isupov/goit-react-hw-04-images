@@ -13,7 +13,7 @@ export const ImageGallery = ({
   loader,
   totalHits,
 }) => {
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalImg, serModalImg] = useState('');
 

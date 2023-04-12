@@ -9,11 +9,10 @@ import css from './ImageGallery.module.css';
 export const ImageGallery = ({
   images,
   incrementPage,
-  nameQuery,
   loader,
   totalHits,
+  error,
 }) => {
-  const [error] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [modalImg, serModalImg] = useState('');
 
@@ -53,9 +52,7 @@ export const ImageGallery = ({
           wrapperClass={css.blocksWrapper}
         />
       )}
-      {showButton && (
-        <Button incrementPage={incrementPage} nameQuery={nameQuery} />
-      )}
+      {showButton && <Button incrementPage={incrementPage} />}
       {showModal && <Modal onClose={toggleModal} modalImg={modalImg} />}
     </>
   );
@@ -63,7 +60,6 @@ export const ImageGallery = ({
 
 ImageGallery.propTypes = {
   loader: PropTypes.bool.isRequired,
-  nameQuery: PropTypes.string.isRequired,
   incrementPage: PropTypes.func.isRequired,
   images: PropTypes.arrayOf(PropTypes.object).isRequired,
   totalHits: PropTypes.number.isRequired,

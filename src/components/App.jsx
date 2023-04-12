@@ -1,4 +1,4 @@
-import { useState, useEffect,useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { getFetchSearch } from 'API/api';
 import { SearchBar } from './SearchBar/SearchBar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
@@ -12,46 +12,27 @@ export const App = () => {
   const [loader, setLoader] = useState(false);
   const [totalHits, setTotalHits] = useState(0);
   const [error, setError] = useState('');
-  
-  // const incrementPage = () => {
-    
-  //   setLoader(true);
-  //   return getFetchSearch(nameQuery, numberPage)
-  //     .then(listOfImages => {
-  //       setTotalHits(listOfImages.totalHits);
-  //       setImages(prevState => [...prevState, ...listOfImages.hits]);
-  //       setNumberPage(prevState => prevState + 1);
-  //     })
 
-  //     .catch(error => setError(error))
-  //     .finally(() => setLoader(false));
-  // };
-   const incrementPage = useCallback( () => {
-    
-    setLoader(true);
-    return getFetchSearch(nameQuery, numberPage)
-      .then(listOfImages => {
-        setTotalHits(listOfImages.totalHits);
-        setImages(prevState => [...prevState, ...listOfImages.hits]);
-        setNumberPage(prevState => prevState + 1);
-      })
-
-      .catch(error => setError(error))
-      .finally(() => setLoader(false));
-  },[nameQuery,numberPage]);
- 
   useEffect(() => {
-    
     if (nameQuery) {
-      incrementPage(nameQuery);
+      setLoader(true);
+      getFetchSearch(nameQuery, numberPage)
+        .then(listOfImages => {
+          setTotalHits(listOfImages.totalHits);
+          setImages(prevState => [...prevState, ...listOfImages.hits]);
+        })
+
+        .catch(error => setError(error))
+        .finally(() => setLoader(false));
     }
-  }, [nameQuery]);
+  }, [nameQuery, numberPage]);
+
+  const incrementPage = () => {
+    setNumberPage(prevState => prevState + 1);
+  };
 
   const saveNameQuery = nameQuery => {
-    
     return setNameQuery(prevState => {
-    
-
       if (prevState === nameQuery || prevState === undefined) {
         setNameQuery(nameQuery);
         return Notiflix.Notify.failure('Same  name of query.Try again!');
@@ -70,9 +51,9 @@ export const App = () => {
         <ImageGallery
           images={images}
           incrementPage={incrementPage}
-          nameQuery={nameQuery}
           loader={loader}
           totalHits={totalHits}
+          error={error}
         />
       </div>
     </>
